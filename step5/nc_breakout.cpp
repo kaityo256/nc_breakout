@@ -76,15 +76,15 @@ move_ball(void) {
   by += vy;
   if (bx < 0) {
     bx = 0;
-    vx = abs(vx);
+    vx = -vx;
   }
   if (by < 0) {
     by = 0;
-    vy = abs(vy);
+    vy = -vy;
   }
   if (bx > 80) {
     bx = 80;
-    vx = -abs(vx);
+    vx = -vx;
   }
   if (by > 24) {
     by = 24;
