@@ -1,5 +1,5 @@
 all: a.out
-LDFLAGS=-lncurses
+LDFLAGS=-lncurses -lpthread
 
 a.out: nc_breakout.cpp
 	g++ -O3 $(LDFLAGS) $<
