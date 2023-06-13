@@ -107,7 +107,7 @@ main(void) {
   noecho(); //キーが入力されても表示しない
   curs_set(0);//カーソルを非表示
   keypad(stdscr, TRUE); // xtermでマウスイベントの取得に必要
-  mousemask(ALL_MOUSE_EVENTS, NULL);//マウスイベントを取得
+  mousemask(REPORT_MOUSE_POSITION, NULL);//マウスイベントを取得
   // ブロック初期化
   for (int i = 0; i < WX; i++) {
     for (int j = 0; j < WY; j++) {
