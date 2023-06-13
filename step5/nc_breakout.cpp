@@ -1,6 +1,6 @@
+#include <future>
 #include <ncurses.h>
 #include <random>
-#include <future>
 
 int px = 40;
 const int py = 23;
@@ -12,21 +12,20 @@ const int SX = 10, SY = 2;
 const int WX = 60, WY = 5;
 bool blocks[WX][WY];
 
-void
-draw_all(void) {
+void draw_all(void) {
   clear();
-  //パドルの描画
+  // パドルの描画
   if (has_ball) {
     mvprintw(py - 1, px, "*");
   }
   mvprintw(py, px - 2, "-----");
-  //ボールの描画
+  // ボールの描画
   int x = static_cast<int>(bx);
   int y = static_cast<int>(by);
   if (!has_ball) {
     mvprintw(y, x, "*");
   }
-  //ブロックの描画
+  // ブロックの描画
   for (int i = 0; i < WX; i++) {
     for (int j = 0; j < WY; j++) {
       if (blocks[i][j]) {
@@ -37,26 +36,24 @@ draw_all(void) {
   refresh();
 }
 
-void
-paddle_collision_check(void) {
+void paddle_collision_check(void) {
   if (by < 23.0) return;
-  if (bx < px - 2)return;
-  if (bx > px + 3)return;
+  if (bx < px - 2) return;
+  if (bx > px + 3) return;
   by = 23;
   double theta = M_PI * ((static_cast<double>(px) - bx + 1.5) / 8.0 + 0.25);
   vx = cos(theta) * 0.5;
   vy = -sin(theta) * 0.5;
 }
 
-void
-block_collision_check(void) {
-  if (bx < SX)return;
-  if (bx > SX + WX)return;
-  if (by < SY)return;
-  if (by > SY + WY)return;
+void block_collision_check(void) {
+  if (bx < SX) return;
+  if (bx > SX + WX) return;
+  if (by < SY) return;
+  if (by > SY + WY) return;
   int x = static_cast<int>(bx) - SX;
   int y = static_cast<int>(by) - SY;
-  if (!blocks[x][y])return;
+  if (!blocks[x][y]) return;
   blocks[x][y] = false;
   double dx = bx - x + 0.5;
   double dy = by - y + 0.5;
@@ -67,9 +64,8 @@ block_collision_check(void) {
   }
 }
 
-void
-move_ball(void) {
-  if (has_ball)return;
+void move_ball(void) {
+  if (has_ball) return;
   paddle_collision_check();
   block_collision_check();
   bx += vx;
@@ -92,8 +88,7 @@ move_ball(void) {
   }
 }
 
-void
-game_loop(void) {
+void game_loop(void) {
   while (now_playing) {
     move_ball();
     draw_all();
@@ -101,13 +96,12 @@ game_loop(void) {
   }
 }
 
-int
-main(void) {
+int main(void) {
   initscr();
-  noecho(); //キーが入力されても表示しない
-  curs_set(0);//カーソルを非表示
-  keypad(stdscr, TRUE); // xtermでマウスイベントの取得に必要
-  mousemask(REPORT_MOUSE_POSITION, NULL);//マウスイベントを取得
+  noecho();                               // キーが入力されても表示しない
+  curs_set(0);                            // カーソルを非表示
+  keypad(stdscr, TRUE);                   // xtermでマウスイベントの取得に必要
+  mousemask(REPORT_MOUSE_POSITION, NULL); // マウスイベントを取得
   // ブロック初期化
   for (int i = 0; i < WX; i++) {
     for (int j = 0; j < WY; j++) {
@@ -116,7 +110,7 @@ main(void) {
   }
   MEVENT e;
   draw_all();
-  auto th_game = std::thread([] {game_loop();});
+  auto th_game = std::thread([] { game_loop(); });
   std::mt19937 mt;
   std::uniform_real_distribution<double> ud(0.0, 1.0);
   while (true) {
@@ -133,8 +127,8 @@ main(void) {
     if (ch == KEY_MOUSE) {
       if (getmouse(&e) == OK) {
         px = e.x;
-        if (px < 2)px = 2;
-        if (px > 77)px = 77;
+        if (px < 2) px = 2;
+        if (px > 77) px = 77;
       }
     }
   }

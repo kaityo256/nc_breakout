@@ -1,10 +1,9 @@
 #include <ncurses.h>
 
-int
-main(void) {
+int main(void) {
   initscr();
-  noecho(); //キーが入力されても表示しない
-  curs_set(0);//カーソルを非表示
+  noecho();    // キーが入力されても表示しない
+  curs_set(0); // カーソルを非表示
   mvprintw(12, 30, "Hello World!");
   while (true) {
     int ch = getch();

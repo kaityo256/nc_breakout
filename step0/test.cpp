@@ -1,7 +1,6 @@
 #include <ncurses.h>
 
-int
-main(void) {
+int main(void) {
   initscr();
   getch();
   endwin();
